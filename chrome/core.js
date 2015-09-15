@@ -1,10 +1,16 @@
-function toggle() {
-  var buttons = document.getElementsByClassName('continue-playing');
-  console.log(buttons.length);
-  if (buttons.length > 0) {
-  buttons[0].click();
-  }
-  setTimeout(toggle, 200);
-}
+var TIMEOUT = 500;
+var BUTTON = "continue-playing";
 
-setTimeout(toggle, 200);
+function toggle() {
+  chrome.storage.sync.get("goflix", function(data) {
+    if (data["goflix"] == "true") {
+      var buttons = document.getElementsByClassName(BUTTON);
+      if (buttons.length > 0) {
+        buttons[0].click();
+      }
+      setTimeout(toggle, TIMEOUT);
+    }
+  });
+};
+
+toggle();
